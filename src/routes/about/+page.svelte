@@ -3,6 +3,7 @@
 
 	let data=[];
 	let Data;
+
 	
 	//get data
   	async function loadData(){
@@ -12,7 +13,7 @@
 
   	}
 
-	//check
+	//post
     async function handleClick() {
 		const data = name;
 		const dt = await fetch('http://localhost:3000/todos', {
@@ -31,7 +32,7 @@
 		loadData();
 	}
   	loadData();
-	// Put
+	// put
 	function dtchange(id, data) {
 		console.log(id);
 		fetch ('http://localhost:3000/todos' + '/' + id, {
@@ -43,6 +44,20 @@
 			
 		})
 	}
+	//delete 
+	function spanClick(id, data) {
+		console.log(id);
+		fetch ('http://localhost:3000/todos'+'/'+ id, {
+			method: "DELETE",
+			headers: {
+        		"Content-Type": "application/json",
+      		},
+      		body: JSON.stringify(data),
+		})
+        .catch(function(){
+            console.log("Error");
+        })
+	}
 </script>
 
 <h2>To-Do List</h2>
@@ -53,12 +68,16 @@
 
 <button on:click={handleClick}> Click me </button>
 
+
 <ul>
 	{#each data as { id, description, isDone }, i}
 		<li>
 			<p>
-				<input type="checkbox" bind:checked={isDone} on:change={()=> {dtchange(id, {id, description, isDone })}} />
-				{i + 1}: {description}
+				<input type="checkbox" bind:checked={isDone} on:change={()=> {dtchange(id, {id, description, isDone })}} class="check" />
+
+				<s>{#if isDone}{description}{/if}</s>{#if !isDone}{description}{/if}
+
+				<button class="span" on:click={()=> {spanClick(id, { })}}> X </button>
 			</p>
 		</li>
 	{/each}
@@ -68,10 +87,19 @@
 
 
 <style>
-	h1 {
+	h2 {
 		color: #002765;
     	display: flex;
     	align-items: center;
     	margin-bottom: 20px;
+	}
+
+	.span {
+		position: absolute;
+    	right: 270px;
+		border-radius: 30px;
+   		background: #ffffff;
+   		color: red;	
+		
 	}
 </style>
