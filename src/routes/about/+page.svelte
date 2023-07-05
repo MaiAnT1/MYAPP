@@ -1,10 +1,10 @@
 <script>
+    
 	let name = '';
 
 	let data=[];
 	let Data;
-
-	
+	let newdata = [];
 	//get data
   	async function loadData(){
     	const res = await fetch('http://localhost:3000/todos');
@@ -29,9 +29,9 @@
         }),
 		})
 		Data = await dt.json();
-		loadData();
+		
 	}
-  	loadData();
+  	
 	// put
 	function dtchange(id, data) {
 		console.log(id);
@@ -58,6 +58,27 @@
             console.log("Error");
         })
 	}
+
+	async function dtdata(id) {
+		// const newData = {value: description} ;
+		const dt = await fetch('http://localhost:3000/todos' + '/' + id, {
+			method: "PUT",
+			headers: {
+          		"Content-Type": "application/json",
+        	},
+			body: JSON.stringify({
+          	description: newdata,
+			isDone: false,
+          	isImportant: false,
+			
+        }),
+		})
+		Data = await dt.json();
+		loadData();
+	}
+  	loadData();
+
+	
 </script>
 
 <h2>To-Do List</h2>
@@ -77,11 +98,16 @@
 
 				<s>{#if isDone}{description}{/if}</s>{#if !isDone}{description}{/if}
 
+				<input type="text" bind:value={description} on:change={()=> {dtdata(id, newdata= {id, description, isDone })}}>
+				<button class="edit" on:click{editClick}> EDIT </button>
+				
+
 				<button class="span" on:click={()=> {spanClick(id, { })}}> X </button>
 			</p>
 		</li>
 	{/each}
 </ul>
+
 
 
 
@@ -101,5 +127,10 @@
    		background: #ffffff;
    		color: red;	
 		
+	}
+
+	.edit {
+		position: absolute;
+    	right: 300px;
 	}
 </style>
