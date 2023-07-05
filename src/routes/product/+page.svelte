@@ -24,8 +24,6 @@
 
 <h1>Product list</h1>
 
-<div class='select-category'>
-
 
 </div>
 

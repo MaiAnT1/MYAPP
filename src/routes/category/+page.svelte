@@ -34,8 +34,8 @@
 		
 	}
 </script>
-<!-- <input type="text" bind:value={textCategory} placeholder="Product"  on:change={()=> {handleClick( {data })}}/>
-<button on:click={handleClick}> Click me </button> -->
+
+<!-- <button on:click={handleClick}> Click me </button>  -->
 
 <div>
     {#each category as {categoryId}}
